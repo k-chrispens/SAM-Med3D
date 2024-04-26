@@ -9,6 +9,7 @@ import numpy as np
 from prepare_data_from_nnUNet import resample_npy_to_nii
 
 # Load the .npy file
+# path = "../data/whole-heart-segmentations-wh-64-1000samples-hearts1-30.npy"
 path = "../data/whole-heart-ultrasound-64-1000samples-hearts1-30.npy"
 
 arr = np.load(path)
@@ -22,6 +23,7 @@ print(split_arr[0].shape)
 # %%
 # Save each array to a separate file
 for i, arr in enumerate(split_arr):
-    resample_npy_to_nii(arr, f"../data/samples/sample_{i}.nii.gz", f"../data/synthetic_hearts/imagesTr/sample_{i}_resampled.nii.gz")
+    # resample_npy_to_nii(arr, f"../data/samples/segmentation_{i}.nii.gz", f"../data/synthetic_hearts/labelsTr/segmentation_{i}_resampled.nii.gz")
+    resample_npy_to_nii(arr, f"../data/samples/ultrasound_{i}.nii.gz", f"../data/synthetic_hearts/imagesTr/ultrasound_{i}_resampled.nii.gz")
 
 # %%
