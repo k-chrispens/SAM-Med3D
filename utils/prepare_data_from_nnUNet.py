@@ -17,30 +17,6 @@ import torchio as tio
 import numpy as np
 
 
-def resample_npy_to_nii(
-    input_arr: np.ndarray,
-    nii_path: str,
-    output_path: str,
-    target_spacing: tuple = (1.5, 1.5, 1.5),
-    n=None,
-    reference_image=None,
-):
-    """
-    Resample .npy file to .nii.gz file using nibabel and torchio.
-
-    Parameters:
-    - input_path: Input .npy file (This needs to be in image, not point cloud format)
-    - nii_path: Path to save non-resampled .nii.gz file.
-    - output_path: Path to save the resampled .nii.gz file.
-    - target_spacing: Desired spacing for resampling. Default is (1.5, 1.5, 1.5).
-    """
-    # Load the NumPy array
-    new_image = nib.Nifti2Image(input_arr, affine=np.eye(4))
-    nib.save(new_image, nii_path)
-    
-    resample_nii(nii_path, output_path, target_spacing, n, reference_image)
-
-
 def resample_nii(
     input_path: str,
     output_path: str,
@@ -85,22 +61,24 @@ def resample_nii(
 dataset_root = "./data"
 dataset_list = [
     "synthetic_hearts",
-    "experimental_hearts",
+    # "experimental_hearts",
 ]
 
-target_dir = "./data/test"
+target_dir = "./data/synthetic_hearts"
 
 
 for dataset in dataset_list:
     dataset_dir = osp.join(dataset_root, dataset)
     meta_info = json.load(open(osp.join(dataset_dir, "dataset.json")))
 
-    print(meta_info["name"], meta_info["modality"])
-    num_classes = len(meta_info["labels"]) - 1
+    print(meta_info["name"], meta_info["channel_names"])
+    num_classes = (
+        len(meta_info["labels"]) - 1
+    )  # labels can have heart sections as part of the classification as well
     print("num_classes:", num_classes, meta_info["labels"])
     resample_dir = osp.join(dataset_dir, "imagesTr_1.5")
     os.makedirs(resample_dir, exist_ok=True)
-    for idx, cls_name in meta_info["labels"].items():
+    for cls_name, idx in meta_info["labels"].items():
         cls_name = cls_name.replace(" ", "_")
         idx = int(idx)
         dataset_name = dataset.split("_", maxsplit=1)[1]
@@ -110,7 +88,7 @@ for dataset in dataset_list:
         os.makedirs(target_img_dir, exist_ok=True)
         os.makedirs(target_gt_dir, exist_ok=True)
         for item in tqdm(meta_info["training"], desc=f"{dataset_name}-{cls_name}"):
-            img, gt = item["image"], item["label"]
+            img, gt = meta_info["training"][item]["image"], meta_info["training"][item]["label"]
             img = osp.join(dataset_dir, img.replace(".nii.gz", "_0000.nii.gz"))
             gt = osp.join(dataset_dir, gt)
             resample_img = osp.join(resample_dir, osp.basename(img))
