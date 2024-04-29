@@ -36,7 +36,7 @@ parser.add_argument('--device', type=str, default='cuda')
 parser.add_argument('--work_dir', type=str, default='work_dir')
 
 # train
-parser.add_argument('--num_workers', type=int, default=24)
+parser.add_argument('--num_workers', type=int, default=16)
 parser.add_argument('--gpu_ids', type=int, nargs='+', default=[0,1])
 parser.add_argument('--multi_gpu', action='store_true', default=False)
 parser.add_argument('--resume', action='store_true', default=False)
@@ -80,6 +80,7 @@ def get_dataloaders(args):
         tio.RandomFlip(axes=(0, 1, 2)),
     ]),
     threshold=1000)
+    print(len(train_dataset))
 
     if args.multi_gpu:
         train_sampler = DistributedSampler(train_dataset)
@@ -346,6 +347,7 @@ class BaseTrainer:
                         self.step_best_loss = print_loss
             
         epoch_loss /= step
+        epoch_dice = self.get_dice_score(prev_masks, gt3D) # NOTE: Fixes the dice plot being all 0
 
         return epoch_loss, epoch_iou, epoch_dice, pred_list
 

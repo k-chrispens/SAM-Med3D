@@ -1,1 +1,1 @@
-python train.py --task_name "fine_tune" --checkpoint "./SAM_Med3D_turbo.pth" --batch_size 4 --num_epochs 10 --lr 8e-5
+python train.py --task_name "fine_tune_contd" --checkpoint "./work_dir/fine_tune/sam_model_latest.pth" --batch_size 4 --num_epochs 30 --lr 8e-5
