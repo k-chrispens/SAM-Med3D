@@ -60,11 +60,11 @@ def resample_nii(
 
 dataset_root = "./data"
 dataset_list = [
-    "synthetic_hearts",
-    # "experimental_hearts",
+    # "synthetic_hearts",
+    "experimental_hearts",
 ]
 
-target_dir = "./data/synthetic_hearts"
+target_dir = "./data/experimental_heart"
 
 
 for dataset in dataset_list:

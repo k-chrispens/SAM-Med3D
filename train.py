@@ -36,7 +36,7 @@ parser.add_argument('--device', type=str, default='cuda')
 parser.add_argument('--work_dir', type=str, default='work_dir')
 
 # train
-parser.add_argument('--num_workers', type=int, default=16)
+parser.add_argument('--num_workers', type=int, default=24)
 parser.add_argument('--gpu_ids', type=int, nargs='+', default=[0,1])
 parser.add_argument('--multi_gpu', action='store_true', default=False)
 parser.add_argument('--resume', action='store_true', default=False)
@@ -144,7 +144,7 @@ class BaseTrainer:
                                                                 self.args.gamma)
         elif self.args.lr_scheduler == "steplr":
             self.lr_scheduler = torch.optim.lr_scheduler.StepLR(self.optimizer,
-                                                                self.args.step_size[0],
+                                                                int(self.args.step_size[0]),
                                                                 self.args.gamma)
         elif self.args.lr_scheduler == 'coswarm':
             self.lr_scheduler = torch.optim.lr_scheduler.CosineAnnealingWarmRestarts(self.optimizer)
