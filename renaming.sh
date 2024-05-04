@@ -1,6 +1,6 @@
 #!/bin/bash
 
-dir="data/synthetic_heart/heart/us_hearts/labelsTr/"
+dir="data/synthetic_50/heart/hearts/labelsTr/"
 
 cd "$dir"
 

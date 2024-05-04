@@ -1,6 +1,10 @@
 img_datas = [
     # 'data/synthetic_heart/heart/us_hearts',
-    "data/experimental_heart/heart/us_hearts"
+    # "data/experimental_heart/heart/us_hearts",
+    # "data/synthetic_20/heart/hearts",
+    "data/synthetic_50/heart/hearts",
+    # "data/synthetic_100/heart/hearts",
+    # "data/synthetic_500/heart/hearts",
 ]
 # img_datas = [
 # 'sam3d_train/medical_data_all/COVID_lesion/COVID1920_ct',
