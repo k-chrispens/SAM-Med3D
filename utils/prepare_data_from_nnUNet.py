@@ -60,16 +60,17 @@ def resample_nii(
 
 dataset_root = "./data"
 dataset_list = [
-    "synthetic_hearts",
+    # "synthetic_hearts",
     # "experimental_hearts",
+    "experimental_hearts/augmented",
 ]
 
-target_dir = "./data/synthetic_50"
+target_dir = "./data/experimental_augmented"
 
 
 for dataset in dataset_list:
     dataset_dir = osp.join(dataset_root, dataset)
-    meta_info = json.load(open(osp.join(dataset_dir, "dataset_50.json")))
+    meta_info = json.load(open(osp.join(dataset_dir, "dataset.json")))
 
     print(meta_info["name"], meta_info["channel_names"])
     num_classes = (
