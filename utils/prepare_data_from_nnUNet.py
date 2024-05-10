@@ -62,10 +62,11 @@ dataset_root = "./data"
 dataset_list = [
     # "synthetic_hearts",
     # "experimental_hearts",
-    "experimental_hearts/augmented",
+    # "experimental_hearts/augmented",
+    "validation/experimental"
 ]
 
-target_dir = "./data/experimental_augmented"
+target_dir = "./data/validation/experimental/"
 
 
 for dataset in dataset_list:
@@ -82,7 +83,8 @@ for dataset in dataset_list:
     for cls_name, idx in meta_info["labels"].items():
         cls_name = cls_name.replace(" ", "_")
         idx = int(idx)
-        dataset_name = dataset.split("_", maxsplit=1)[1]
+        # dataset_name = dataset.split("_", maxsplit=1)[1]
+        dataset_name = "hearts"
         target_cls_dir = osp.join(target_dir, cls_name, dataset_name)
         target_img_dir = osp.join(target_cls_dir, "imagesTr")
         target_gt_dir = osp.join(target_cls_dir, "labelsTr")

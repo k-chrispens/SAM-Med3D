@@ -41,8 +41,8 @@ def seg_nrrd_to_nii(
     sitk.WriteImage(img, output_path)
 
 # Load the files
-path_img = "../data/validation/experimental/img"
-path_label = "../data/validation/experimental/label"
+path_img = "../data/validation/experimental/ultrasound"
+path_label = "../data/validation/experimental/segmentations"
 
 # %%
 files_img = os.listdir(path_img)
@@ -59,18 +59,18 @@ for i, (img_file, label_file) in enumerate(zip(files_img, files_label)):
     if os.path.splitext(img_file)[1] == ".npy" and os.path.splitext(label_file)[1] == ".npy":
         arr_img = np.load(os.path.join(path_img, img_file))
         arr_label = np.load(os.path.join(path_label, label_file)) 
-        npy_to_nii(arr_img, f"../data/validation/experimental/img/sample_{i}_0000.nii.gz")
-        npy_to_nii(arr_label, f"../data/validation/experimental/label/sample_{i}.nii.gz")
+        npy_to_nii(arr_img, f"../data/validation/experimental/sample_{i}_0000.nii.gz")
+        npy_to_nii(arr_label, f"../data/validation/experimental/sample_{i}.nii.gz")
     elif os.path.splitext(img_file)[1] == ".nrrd" and os.path.splitext(label_file)[1] == ".nrrd":
-        seg_nrrd_to_nii(os.path.join(path_img, img_file), f"../data/validation/experimental/img/sample_{i}_0000.nii.gz")
-        seg_nrrd_to_nii(os.path.join(path_label, label_file), f"../data/validation/experimental/label/sample_{i}.nii.gz")
+        seg_nrrd_to_nii(os.path.join(path_img, img_file), f"../data/validation/experimental/sample_{i}_0000.nii.gz")
+        seg_nrrd_to_nii(os.path.join(path_label, label_file), f"../data/validation/experimental/sample_{i}.nii.gz")
     elif os.path.splitext(label_file)[1] == ".nrrd":
         arr_img = np.load(os.path.join(path_img, img_file))
-        npy_to_nii(arr_img, f"../data/validation/experimental/img/sample_{i}_0000.nii.gz")
-        seg_nrrd_to_nii(os.path.join(path_label, label_file), f"../data/validation/experimental/label/sample_{i}.nii.gz")
+        npy_to_nii(arr_img, f"../data/validation/experimental/sample_{i}_0000.nii.gz")
+        seg_nrrd_to_nii(os.path.join(path_label, label_file), f"../data/validation/experimental/sample_{i}.nii.gz")
     else:
         arr_label = np.load(os.path.join(path_label, label_file))
-        seg_nrrd_to_nii(os.path.join(path_img, img_file), f"../data/validation/experimental/img/sample_{i}_0000.nii.gz")
-        npy_to_nii(arr_label, f"../data/validation/experimental/label/sample_{i}.nii.gz")
+        seg_nrrd_to_nii(os.path.join(path_img, img_file), f"../data/validation/experimental/sample_{i}_0000.nii.gz")
+        npy_to_nii(arr_label, f"../data/validation/experimental/sample_{i}.nii.gz")
 
 # %%

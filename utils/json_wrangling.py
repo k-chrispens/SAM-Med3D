@@ -7,7 +7,7 @@ Date: 4/26/2024
 import json
 
 # Load the dataset.json file
-path = "./data/experimental_hearts/dataset.json"
+path = "./data/validation/experimental/dataset.json"
 
 with open(path, "r+") as f:
     data = json.load(f)
