@@ -1,1 +1,1 @@
-python train.py --multi_gpu
+python train.py --task_name "fine_tune_synthetic_50" --checkpoint "./SAM_Med3D_turbo.pth" --batch_size 4 --num_epochs 10 --lr 8e-5 --num_workers 1 --lr_scheduler steplr --step_size 5 --gamma 0.1

@@ -14,6 +14,9 @@ __pycache__/
 # C extensions
 *.so
 
+# Model weights
+*.pth
+
 # Distribution / packaging
 .Python
 build/
