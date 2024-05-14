@@ -50,6 +50,7 @@ def resample_nii(
         tensor_data[tensor_data != 0] = 1
         save_image = tio.ScalarImage(tensor=tensor_data, affine=image.affine)
         reference_size = reference_image.shape[1:]  # omitting the channel dimension
+        # reference_size = (128, 128, 128)
         cropper_or_padder = tio.CropOrPad(reference_size)
         save_image = cropper_or_padder(save_image)
     else:
@@ -96,7 +97,7 @@ for dataset in dataset_list:
             gt = osp.join(dataset_dir, gt)
             resample_img = osp.join(resample_dir, osp.basename(img))
             if not osp.exists(resample_img):
-                resample_nii(img, resample_img)
+                resample_nii(img, resample_img, target_spacing=(1, 1, 1))
             img = resample_img
 
             target_img_path = osp.join(
@@ -118,20 +119,12 @@ for dataset in dataset_list:
                 continue
 
             reference_image = tio.ScalarImage(img)
-            if meta_info["name"] == "kits23" and idx == 1:
-                resample_nii(
-                    gt,
-                    target_gt_path,
-                    n=[1, 2, 3],
-                    reference_image=reference_image,
-                    mode="nearest",
-                )
-            else:
-                resample_nii(
-                    gt,
-                    target_gt_path,
-                    n=idx,
-                    reference_image=reference_image,
-                    mode="nearest",
-                )
+            resample_nii(
+                gt,
+                target_gt_path,
+                target_spacing=(1, 1, 1),
+                n=1,
+                reference_image=reference_image,
+                mode="nearest",
+            )
             shutil.copy(img, target_img_path)

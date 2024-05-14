@@ -38,7 +38,8 @@ def seg_nrrd_to_nii(
     - output_path: Path to save the .nii.gz file.
     """
     img = sitk.ReadImage(input_path)
-    sitk.WriteImage(img, output_path)
+    new_image = nib.Nifti2Image(sitk.GetArrayFromImage(img), affine=np.eye(4))
+    nib.save(new_image, output_path)
 
 # Load the files
 path_img = "../data/validation/experimental/ultrasound"

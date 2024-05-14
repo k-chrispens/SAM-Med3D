@@ -372,8 +372,11 @@ if __name__ == "__main__":
             pt_path=os.path.join(vis_root, os.path.basename(img_name[0]).replace(".nii.gz", "_pt.pkl"))
             pickle.dump(pt_info, open(pt_path, "wb"))
             for idx, pred3D in enumerate(seg_mask_list):
-                out = sitk.GetImageFromArray(pred3D)
-                sitk.WriteImage(out, os.path.join(vis_root, os.path.basename(img_name[0]).replace(".nii.gz", f"_pred{idx}.nii.gz")))
+                pred3D = torch.tensor(pred3D)
+                pred3D = torch.reshape(pred3D, (1, *pred3D.shape))
+                out = tio.ScalarImage(tensor=pred3D, affine=np.eye(4))
+                out.save(os.path.join(vis_root, os.path.basename(img_name[0]).replace(".nii.gz", f"_pred{idx}.nii.gz")))
+                # sitk.WriteImage(out, os.path.join(vis_root, os.path.basename(img_name[0]).replace(".nii.gz", f"_pred{idx}.nii.gz")))
 
         per_iou = max(iou_list)
         all_iou_list.append(per_iou)
