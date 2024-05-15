@@ -50,7 +50,6 @@ def resample_nii(
         tensor_data[tensor_data != 0] = 1
         save_image = tio.ScalarImage(tensor=tensor_data, affine=image.affine)
         reference_size = reference_image.shape[1:]  # omitting the channel dimension
-        # reference_size = (128, 128, 128)
         cropper_or_padder = tio.CropOrPad(reference_size)
         save_image = cropper_or_padder(save_image)
     else:
@@ -64,10 +63,11 @@ dataset_list = [
     # "synthetic_hearts",
     # "experimental_hearts",
     # "experimental_hearts/augmented",
-    "validation/experimental"
+    # "validation/experimental",
+    "inference",
 ]
 
-target_dir = "./data/validation/experimental/"
+target_dir = "./data/inference/"
 
 
 for dataset in dataset_list:
@@ -114,9 +114,9 @@ for dataset in dataset_list:
             gt_arr[gt_arr != idx] = 0
             gt_arr[gt_arr != 0] = 1
             volume = gt_arr.sum() * spacing_voxel
-            if volume < 10:
-                print("skip", target_img_path)
-                continue
+            # if volume < 10: # FIXME: Comment out for generating inference data?
+            #     print("skip", target_img_path)
+            #     continue
 
             reference_image = tio.ScalarImage(img)
             resample_nii(
