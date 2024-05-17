@@ -62,12 +62,12 @@ dataset_root = "./data"
 dataset_list = [
     # "synthetic_hearts",
     # "experimental_hearts",
-    # "experimental_hearts/augmented",
+    "experimental_hearts/augmented",
     # "validation/experimental",
-    "inference",
+    # "inference",
 ]
 
-target_dir = "./data/inference/"
+target_dir = "./data/experimental_hearts_no_spaced/"
 
 
 for dataset in dataset_list:
@@ -79,7 +79,7 @@ for dataset in dataset_list:
         len(meta_info["labels"]) - 1
     )  # labels can have heart sections as part of the classification as well
     print("num_classes:", num_classes, meta_info["labels"])
-    resample_dir = osp.join(dataset_dir, "imagesTr_1.5")
+    resample_dir = osp.join(dataset_dir, "imagesTr_1") # FIXME: CHanged to 1
     os.makedirs(resample_dir, exist_ok=True)
     for cls_name, idx in meta_info["labels"].items():
         cls_name = cls_name.replace(" ", "_")
@@ -87,7 +87,7 @@ for dataset in dataset_list:
         # dataset_name = dataset.split("_", maxsplit=1)[1]
         dataset_name = "hearts"
         target_cls_dir = osp.join(target_dir, cls_name, dataset_name)
-        target_img_dir = osp.join(target_cls_dir, "imagesTr")
+        target_img_dir = osp.join(target_cls_dir, "imagesTr") # FIXME: Changed to infer for inference
         target_gt_dir = osp.join(target_cls_dir, "labelsTr")
         os.makedirs(target_img_dir, exist_ok=True)
         os.makedirs(target_gt_dir, exist_ok=True)
@@ -97,12 +97,14 @@ for dataset in dataset_list:
             gt = osp.join(dataset_dir, gt)
             resample_img = osp.join(resample_dir, osp.basename(img))
             if not osp.exists(resample_img):
-                resample_nii(img, resample_img, target_spacing=(1, 1, 1))
+                resample_nii(img, resample_img, target_spacing=(1, 1, 1)) # FIXME: testing spacing
             img = resample_img
 
             target_img_path = osp.join(
                 target_img_dir, osp.basename(img).replace("_0000.nii.gz", ".nii.gz")
             )
+
+            # NOTE: COMMENT OUT FOR PREPARING DATA FOR INFERENCE
             target_gt_path = osp.join(
                 target_gt_dir, osp.basename(gt).replace("_0000.nii.gz", ".nii.gz")
             )
@@ -123,7 +125,7 @@ for dataset in dataset_list:
                 gt,
                 target_gt_path,
                 target_spacing=(1, 1, 1),
-                n=1,
+                n=[1,2,3],
                 reference_image=reference_image,
                 mode="nearest",
             )

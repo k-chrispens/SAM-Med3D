@@ -492,6 +492,7 @@ if __name__ == "__main__":
     all_dataset_paths = glob(join(args.test_data_path, "*", "*"))
     all_dataset_paths = list(filter(osp.isdir, all_dataset_paths))
     print("get", len(all_dataset_paths), "datasets")
+    print(all_dataset_paths)
 
     crop_transform = tio.CropOrPad(
         target_shape=(args.crop_size, args.crop_size, args.crop_size)

@@ -388,6 +388,7 @@ if __name__ == "__main__":
     all_dataset_paths = glob(join(args.test_data_path, "*", "*"))
     all_dataset_paths = list(filter(os.path.isdir, all_dataset_paths))
     print("get", len(all_dataset_paths), "datasets")
+    print(all_dataset_paths)
 
     infer_transform = [
         tio.ToCanonical(),
