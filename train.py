@@ -144,26 +144,27 @@ class BaseTrainer:
         else:
             sam_model = self.model
 
-        # self.optimizer = torch.optim.AdamW([
-        #     {'params': sam_model.image_encoder.parameters()}, # , 'lr': self.args.lr * 0.1},
-        #     {'params': sam_model.prompt_encoder.parameters() , 'lr': self.args.lr * 0.1},
-        #     {'params': sam_model.mask_decoder.parameters(), 'lr': self.args.lr * 0.1},
-        # ], lr=self.args.lr, betas=(0.9,0.999), weight_decay=self.args.weight_decay)
+        self.optimizer = torch.optim.AdamW([
+            {'params': sam_model.image_encoder.parameters()}, # , 'lr': self.args.lr * 0.1},
+            # {'params': sam_model.prompt_encoder.parameters() , 'lr': self.args.lr * 0.1},
+            {'params': sam_model.mask_decoder.parameters(), 'lr': self.args.lr * 0.1},
+        ], lr=self.args.lr, betas=(0.9,0.999), weight_decay=self.args.weight_decay)
 
         # Only optimize the encoder parameters # FIXME: SEE IF THIS WORKS!!
-        for param in sam_model.prompt_encoder.parameters():
-            param.requires_grad = False
-        for param in sam_model.mask_decoder.parameters():
-            param.requires_grad = False
+        # NOTE: This does work decently, but I am going to test and see if updating the mask decoder also helps
+        # for param in sam_model.prompt_encoder.parameters():
+        #     param.requires_grad = False
+        # for param in sam_model.mask_decoder.parameters():
+        #     param.requires_grad = False
 
-        encoder_params = list(sam_model.image_encoder.parameters())
+        # encoder_params = list(sam_model.image_encoder.parameters())
 
-        self.optimizer = torch.optim.AdamW(
-            encoder_params,
-            lr=self.args.lr,
-            betas=(0.9, 0.999),
-            weight_decay=self.args.weight_decay,
-        )
+        # self.optimizer = torch.optim.AdamW(
+        #     encoder_params,
+        #     lr=self.args.lr,
+        #     betas=(0.9, 0.999),
+        #     weight_decay=self.args.weight_decay,
+        # )
 
     def set_lr_scheduler(self):
         if self.args.lr_scheduler == "multisteplr":
@@ -591,3 +592,5 @@ def cleanup():
 
 if __name__ == "__main__":
     main()
+
+# %%

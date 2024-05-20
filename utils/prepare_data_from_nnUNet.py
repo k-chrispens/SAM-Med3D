@@ -62,12 +62,12 @@ dataset_root = "./data"
 dataset_list = [
     # "synthetic_hearts",
     # "experimental_hearts",
-    "experimental_hearts/augmented",
+    # "experimental_hearts/augmented",
     # "validation/experimental",
-    # "inference",
+    "inference",
 ]
 
-target_dir = "./data/experimental_hearts_no_spaced/"
+target_dir = "./data/inference/no_spaced"
 
 
 for dataset in dataset_list:
@@ -87,7 +87,7 @@ for dataset in dataset_list:
         # dataset_name = dataset.split("_", maxsplit=1)[1]
         dataset_name = "hearts"
         target_cls_dir = osp.join(target_dir, cls_name, dataset_name)
-        target_img_dir = osp.join(target_cls_dir, "imagesTr") # FIXME: Changed to infer for inference
+        target_img_dir = osp.join(target_cls_dir, "infer") # FIXME: Changed from imagesTr to infer for inference
         target_gt_dir = osp.join(target_cls_dir, "labelsTr")
         os.makedirs(target_img_dir, exist_ok=True)
         os.makedirs(target_gt_dir, exist_ok=True)
@@ -105,28 +105,28 @@ for dataset in dataset_list:
             )
 
             # NOTE: COMMENT OUT FOR PREPARING DATA FOR INFERENCE
-            target_gt_path = osp.join(
-                target_gt_dir, osp.basename(gt).replace("_0000.nii.gz", ".nii.gz")
-            )
+            # target_gt_path = osp.join(
+            #     target_gt_dir, osp.basename(gt).replace("_0000.nii.gz", ".nii.gz")
+            # )
 
-            gt_img = nib.load(gt)
-            spacing = tuple(gt_img.header["pixdim"][1:4])
-            spacing_voxel = spacing[0] * spacing[1] * spacing[2]
-            gt_arr = gt_img.get_fdata()
-            gt_arr[gt_arr != idx] = 0
-            gt_arr[gt_arr != 0] = 1
-            volume = gt_arr.sum() * spacing_voxel
-            # if volume < 10: # FIXME: Comment out for generating inference data?
-            #     print("skip", target_img_path)
-            #     continue
+            # gt_img = nib.load(gt)
+            # spacing = tuple(gt_img.header["pixdim"][1:4])
+            # spacing_voxel = spacing[0] * spacing[1] * spacing[2]
+            # gt_arr = gt_img.get_fdata()
+            # gt_arr[gt_arr != idx] = 0
+            # gt_arr[gt_arr != 0] = 1
+            # volume = gt_arr.sum() * spacing_voxel
+            # # if volume < 10: # FIXME: Comment out for generating inference data?
+            # #     print("skip", target_img_path)
+            # #     continue
 
-            reference_image = tio.ScalarImage(img)
-            resample_nii(
-                gt,
-                target_gt_path,
-                target_spacing=(1, 1, 1),
-                n=[1,2,3],
-                reference_image=reference_image,
-                mode="nearest",
-            )
+            # reference_image = tio.ScalarImage(img)
+            # resample_nii(
+            #     gt,
+            #     target_gt_path,
+            #     target_spacing=(1, 1, 1),
+            #     n=[1,2,3],
+            #     reference_image=reference_image,
+            #     mode="nearest",
+            # )
             shutil.copy(img, target_img_path)

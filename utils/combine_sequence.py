@@ -3,15 +3,15 @@ import nibabel as nib
 import numpy as np
 
 # Define the directory containing the NIfTI files and the output file name
-nii_directory = '/mnt/hdd1/karson/storage/SAMResults/sequence_syn_exp/sequence_syn_exp/pred/heart/hearts'
-output_file = '/mnt/hdd1/karson/storage/SAMResults/syn_exp_combined_volumes.npy'
+nii_directory = 'results/sequence_exp_no_spaced/pred/heart/hearts'
+output_file = '/mnt/hdd1/karson/storage/SAMResults/exp_combined_volumes_no_spaced.npy'
 
 # List to hold the volumes
 volumes = []
 
 # Loop over all files in the directory
 for filename in sorted(os.listdir(nii_directory), key=lambda x: int(x.split('_')[1])):
-    if filename.endswith('img.nii.gz'):
+    if filename.endswith('g.nii.gz'):
         # print(filename)
         filepath = os.path.join(nii_directory, filename)
         nii = nib.load(filepath)

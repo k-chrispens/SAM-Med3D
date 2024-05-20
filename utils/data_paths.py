@@ -1,7 +1,8 @@
 img_datas = [
     # 'data/synthetic_heart/heart/us_hearts',
     # "data/experimental_heart/heart/us_hearts",
-    "data/experimental_augmented/heart/augmented",
+    # "data/experimental_augmented/heart/augmented",
+    "data/experimental_hearts_no_spaced/heart/hearts",
     # "data/synthetic_20/heart/hearts",
     # "data/synthetic_50/heart/hearts",
     # "data/synthetic_100/heart/hearts",
