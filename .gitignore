@@ -1,5 +1,6 @@
 data/*
 ckpt/*
+bootstrapped_segmentations/
 results/*
 work_dir/*
 */__pycache__/*
